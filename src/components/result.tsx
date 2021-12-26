@@ -20,7 +20,7 @@ const Result = ({ latex }: Props) => {
                 </Latex>
             </div>
 
-            <img id="result-img" className="" />
+            <img id="result-img" alt="latex" />
         </div>
     )
 }

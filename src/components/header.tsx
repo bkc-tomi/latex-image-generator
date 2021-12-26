@@ -14,11 +14,11 @@ const Header = () => {
             </h1>
             <div className="w-16 h-16 flex justify-center items-center">
                 <a
-                    href=""
+                    href="https://github.com/bkc-tomi/latex-image-generator"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    <img src={ Img } />
+                    <img src={ Img } alt="github link" />
                 </a>
             </div>
         </div>
