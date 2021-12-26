@@ -1,24 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/header';
-import Result from './components/result';
+import {ResultLatex, ResultImage } from './components/result';
 import Editor from './components/editor';
 import * as htmlToImage from 'html-to-image';
-
-const addHidden = (elm:HTMLElement) => {
-  if(!elm.classList.contains("hidden")) {
-    elm.classList.add("hidden");
-  }
-}
-
-const removeHidden = (elm:HTMLElement) => {
-  if(elm.classList.contains("hidden")) {
-    elm.classList.remove("hidden");
-  }
-}
+import { Img } from './img/firstImg';
 
 function App() {
   const [tex, setTex] = useState(`$a \\ne 0$のとき、2次方程式 \\(ax^2 + bx + c = 0\\) の解は
 $$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}$$`);
+  const [texImg, setTexImg] = useState(Img);
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     switch (event.target.name) {
@@ -30,17 +20,13 @@ $$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}$$`);
         // 画像の生成
         const elm = document.getElementById("result-view");
         if (elm) {
-          removeHidden(elm);
-          await htmlToImage.toPng(elm)
+          htmlToImage.toPng(elm)
           .then(function(dataUrl) {
-            const imgDom = document.getElementById("result-img") as HTMLImageElement;
-  
-            imgDom.src = dataUrl;
+            setTexImg(dataUrl);
           })
           .catch(function (error) {
             console.error('oops, something went wrong!', error);
           });
-          addHidden(elm);
         }
         break;
       default:
@@ -75,8 +61,18 @@ $$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}$$`);
             className='md:pl-2'
             id="result-area"
           >
-            <h2 className='font-bold'>ここに表示されます：</h2>
-            <Result latex={ tex } />
+            <h2 className='font-bold'>結果がされます：</h2>
+            <div 
+              className='grid grid-rows-2'
+              style={{height: "calc(100% - 4rem)"}}
+            >
+              <div>
+                <ResultLatex latex={ tex } />
+              </div>
+              <div>
+                <ResultImage texImg={ texImg } />
+              </div>
+            </div>
           </div>
 
         </div>
